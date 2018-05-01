@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# If $METHOD is not set, use opt
+if [ -z $METHOD ]; then
+  export METHOD=opt
+fi
+
+if [ -e ./unit/helium-unit-$METHOD ]
+then
+  ./unit/helium-unit-$METHOD
+elif [ -e ./helium-unit-$METHOD ]
+then
+  ./helium-unit-$METHOD
+else
+  echo "Executable missing!"
+  exit 1
+fi
