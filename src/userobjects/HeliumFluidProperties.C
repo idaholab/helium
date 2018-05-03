@@ -61,6 +61,8 @@ extern "C" void DIFF_W_VU_HE(
 extern "C" void
 DIFF_U_VP_HE(double v, double p, double & u, double & dudv_p, double & dudp_v, double & dpdv_u);
 
+registerMooseObject("HeliumApp", HeliumFluidProperties);
+
 template <>
 InputParameters
 validParams<HeliumFluidProperties>()
