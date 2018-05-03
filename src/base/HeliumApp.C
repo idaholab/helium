@@ -21,6 +21,8 @@ validParams<HeliumApp>()
 HeliumApp::HeliumApp(InputParameters parameters)
   : MooseApp(parameters)
 {
+  Moose::registerObjects(_factory);
+  FluidPropertiesApp::registerObjects(_factory);
   HeliumApp::registerObjects(_factory);
 
   FluidPropertiesApp::associateSyntax(_syntax, _action_factory);
@@ -48,5 +50,5 @@ HeliumApp__registerObjects(Factory & factory)
 void
 HeliumApp::registerObjects(Factory & factory)
 {
-  registerUserObject(HeliumFluidProperties);
+  Registry::registerObjectsTo(factory, {"HeliumApp"});
 }
