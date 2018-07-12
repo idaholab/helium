@@ -6,11 +6,11 @@ Renderer:
     type: MooseDocs.base.MaterializeRenderer
     name: helium
     repo: https://hpcgitlab.inl.gov/idaholab/helium
-    home: https://hpcsc.inl.gov/ssl/helium/site/index.html
+    home: https://hpcsc.inl.gov/ssl/HELIUM/site/
     navigation:
         Developers:
             Workflow: workflow.md
-            Build Status: https://moosebuild.inl.gov/repo/269/
+            Build Status: https://moosebuild.inl.gov/repo/idaholab/helium/
 
 Extensions:
     appsyntax:
