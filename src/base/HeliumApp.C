@@ -18,8 +18,7 @@ validParams<HeliumApp>()
   return params;
 }
 
-HeliumApp::HeliumApp(InputParameters parameters)
-  : MooseApp(parameters)
+HeliumApp::HeliumApp(InputParameters parameters) : MooseApp(parameters)
 {
   Moose::registerObjects(_factory);
   FluidPropertiesApp::registerObjects(_factory);
