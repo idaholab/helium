@@ -1,5 +1,5 @@
 #include "HeliumFluidPropertiesTest.h"
-#include "Utils.h"
+#include "SinglePhaseFluidPropertiesTestUtils.h"
 
 TEST_F(HeliumFluidPropertiesTest, test)
 {
