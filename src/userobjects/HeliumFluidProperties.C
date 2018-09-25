@@ -74,6 +74,12 @@ HeliumFluidProperties::HeliumFluidProperties(const InputParameters & parameters)
 }
 
 Real
+HeliumFluidProperties::molarMass() const
+{
+  return 4.002602e-3;
+}
+
+Real
 HeliumFluidProperties::p_from_v_e(Real v, Real e) const
 {
   return P_VU_HE(v, e * _to_kJ) * _to_Pa;

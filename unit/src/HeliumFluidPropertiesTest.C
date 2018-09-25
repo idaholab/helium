@@ -91,4 +91,7 @@ TEST_F(HeliumFluidPropertiesTest, test)
   // const Real beta = _fp->beta_from_p_T(p, T);
   // TODO: REL_TEST(beta, beta_external, REL_TOL_EXTERNAL_VALUE);
   // TODO: REL_TEST(beta, beta_saved, REL_TOL_SAVED_VALUE);
+
+  // molar mass
+  REL_TEST(_fp->molarMass(), 4.002602e-3, REL_TOL_SAVED_VALUE);
 }
