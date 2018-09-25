@@ -18,6 +18,8 @@ validParams<HeliumApp>()
   return params;
 }
 
+registerKnownLabel("HeliumApp");
+
 HeliumApp::HeliumApp(InputParameters parameters) : MooseApp(parameters)
 {
   Moose::registerObjects(_factory);
