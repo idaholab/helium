@@ -25,6 +25,7 @@ class HeliumFluidProperties : public SinglePhaseFluidProperties
 public:
   HeliumFluidProperties(const InputParameters & parameters);
 
+  Real molarMass() const override;
   virtual Real p_from_v_e(Real v, Real e) const override;
   virtual void p_from_v_e(Real v, Real e, Real & p, Real & dp_dv, Real & dp_de) const override;
   virtual Real T_from_v_e(Real v, Real e) const override;
