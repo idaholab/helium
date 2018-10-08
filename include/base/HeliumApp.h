@@ -15,7 +15,7 @@ public:
   HeliumApp(InputParameters parameters);
 
   static void registerApps();
-  static void registerObjects(Factory & factory);
+  static void registerAll(Factory & f, ActionFactory & af, Syntax & s);
 
 protected:
 };
