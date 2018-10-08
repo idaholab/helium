@@ -4,10 +4,7 @@
 #include "AppFactory.h"
 
 // Modules
-#include "FluidPropertiesApp.h"
-
-// Fluid properties
-#include "HeliumFluidProperties.h"
+#include "ModulesApp.h"
 
 template <>
 InputParameters
@@ -22,11 +19,7 @@ registerKnownLabel("HeliumApp");
 
 HeliumApp::HeliumApp(InputParameters parameters) : MooseApp(parameters)
 {
-  Moose::registerObjects(_factory);
-  FluidPropertiesApp::registerObjects(_factory);
-  HeliumApp::registerObjects(_factory);
-
-  FluidPropertiesApp::associateSyntax(_syntax, _action_factory);
+  HeliumApp::registerAll(_factory, _action_factory, _syntax);
 }
 
 // External entry point for dynamic application loading
@@ -35,6 +28,7 @@ HeliumApp__registerApps()
 {
   HeliumApp::registerApps();
 }
+
 void
 HeliumApp::registerApps()
 {
@@ -43,13 +37,16 @@ HeliumApp::registerApps()
 
 // External entry point for dynamic object registration
 extern "C" void
-HeliumApp__registerObjects(Factory & factory)
+HeliumApp__registerAll(Factory & f, ActionFactory & af, Syntax & s)
 {
-  HeliumApp::registerObjects(factory);
+  HeliumApp::registerAll(f, af, s);
 }
 
 void
-HeliumApp::registerObjects(Factory & factory)
+HeliumApp::registerAll(Factory & f, ActionFactory & af, Syntax & s)
 {
-  Registry::registerObjectsTo(factory, {"HeliumApp"});
+  Registry::registerObjectsTo(f, {"HeliumApp"});
+  Registry::registerActionsTo(af, {"HeliumApp"});
+
+  ModulesApp::registerAll(f, af, s);
 }
