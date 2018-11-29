@@ -83,7 +83,7 @@ build
 peacock_run_tmp.i
 yaml_dump*
 
-# test garbagge
+# test garbage
 *.FAILED.txt
 
 # eclipse garbage
@@ -105,7 +105,6 @@ yaml_dump*
 # Unit testing stuff
 moose_unit/test_results.xml
 unit/include/Helium-unitRevision.h
-include/base/IapwsRevision.h
 
 # gcov code coverage files
 *.gcno
