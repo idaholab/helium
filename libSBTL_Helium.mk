@@ -44,7 +44,7 @@ $(app_EXEC): $(LIBSBTL_HELIUM_LIB)
 
 -include $(LIBSBTL_HELIUM_deps)
 
-cleanlibsbtl_nitrogen:
+cleanlibsbtl_helium:
 	@echo "Cleaning libSBTL_Helium"
 	@rm -f $(LIBSBTL_HELIUM_objects)
 	@rm -f $(LIBSBTL_HELIUM_deps)
