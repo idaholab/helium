@@ -48,7 +48,7 @@
 //-----------------------------------------------------------------------------
 //
                     //known properties:
-#define STR_ERR 0   // - none (needs to be initialized with ireg-call) - currently LibSBTL_vu_HE considered gaseous nitrogen only (single phase)
+#define STR_ERR 0   // - none (needs to be initialized with ireg-call) - currently LibSBTL_vu_HE considered gaseous helium only (single phase)
 #define STR_PDP 1   // - region
                     // - auxiliary variables for property calculations
                     // - auxiliary variables for derivatives in the single-phase region
