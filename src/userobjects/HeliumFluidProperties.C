@@ -48,12 +48,23 @@ extern "C" int FLASH_VH_HE(double v, double h, double & u);
 // SBTL functions with derivatives
 extern "C" void
 DIFF_P_VU_HE(double v, double u, double & p, double & dpdv, double & dpdu, double & dudv);
+extern "C" void DIFF_P_VU_HE_T(
+    double vt, double v, double u, double & p, double & dpdv, double & dpdu, double & dudv);
 extern "C" void
 DIFF_T_VU_HE(double v, double u, double & t, double & dtdv, double & dtdu, double & dudv);
+extern "C" void DIFF_T_VU_HE_T(
+    double vt, double v, double u, double & t, double & dtdv, double & dtdu, double & dudv);
 extern "C" void
 DIFF_S_VU_HE(double v, double u, double & s, double & dsdv, double & dsdu, double & dudv);
 extern "C" void
 DIFF_W_VU_HE(double v, double u, double & c, double & dcdv, double & dcdu, double & dudv);
+extern "C" void DIFF_LAMBDA_VU_HE_T(double vt,
+                                    double v,
+                                    double u,
+                                    double & lambda,
+                                    double & dlambdadv,
+                                    double & dlambdadu,
+                                    double & dudv);
 extern "C" void
 DIFF_U_VP_HE(double v, double p, double & u, double & dudv_p, double & dudp_v, double & dpdv_u);
 
@@ -323,6 +334,113 @@ HeliumFluidProperties::h_from_p_T(Real p, Real T, Real & h, Real & dh_dp, Real &
   h = e * _to_J + p * v;
   dh_dp = de_dp * _to_J / _to_Pa + (v + p * _to_MPa * dv_dp);
   dh_dT = de_dT * _to_J + p * dv_dT;
+}
+
+Real
+HeliumFluidProperties::cp_from_p_T(Real p, Real T) const
+{
+  double v, vt, e;
+  const unsigned int ierr = PT_FLASH_HE(p * _to_MPa, T, v, vt, e);
+  if (ierr != I_OK)
+  {
+    v = NAN;
+    vt = NAN;
+    e = NAN;
+    return NAN;
+  }
+  else
+  {
+    return CP_VU_HE(v, e) * _to_J;
+  }
+}
+
+Real
+HeliumFluidProperties::cv_from_p_T(Real p, Real T) const
+{
+  double v, vt, e;
+  const unsigned int ierr = PT_FLASH_HE(p * _to_MPa, T, v, vt, e);
+  if (ierr != I_OK)
+  {
+    v = NAN;
+    vt = NAN;
+    e = NAN;
+    return NAN;
+  }
+  else
+  {
+    return CV_VU_HE(v, e) * _to_J;
+  }
+}
+
+Real
+HeliumFluidProperties::mu_from_p_T(Real p, Real T) const
+{
+  double v, vt, e;
+  const unsigned int ierr = PT_FLASH_HE(p * _to_MPa, T, v, vt, e);
+  if (ierr != I_OK)
+  {
+    v = NAN;
+    vt = NAN;
+    e = NAN;
+    return NAN;
+  }
+  else
+  {
+    return ETA_VU_HE(v, e);
+  }
+}
+
+Real
+HeliumFluidProperties::k_from_p_T(Real p, Real T) const
+{
+  double v, vt, e;
+  const unsigned int ierr = PT_FLASH_HE(p * _to_MPa, T, v, vt, e);
+  if (ierr != I_OK)
+  {
+    v = NAN;
+    vt = NAN;
+    e = NAN;
+    return NAN;
+  }
+  else
+  {
+    return LAMBDA_VU_HE(v, e);
+  }
+}
+
+void
+HeliumFluidProperties::k_from_p_T(Real p, Real T, Real & k, Real & dk_dp, Real & dk_dT) const
+{
+  double v, vt, dv_dp, dv_dT, dp_dT_v;
+  double e, de_dp, de_dT, dp_dT_e;
+  const unsigned int ierr =
+      PT_FLASH_DERIV_HE(p * _to_MPa, T, v, vt, dv_dp, dv_dT, dp_dT_v, e, de_dp, de_dT, dp_dT_e);
+  if (ierr != I_OK)
+  {
+    v = NAN;
+    vt = NAN;
+    dv_dp = NAN;
+    dv_dT = NAN;
+    dp_dT_v = NAN;
+    e = NAN;
+    de_dp = NAN;
+    de_dT = NAN;
+    dp_dT_e = NAN;
+    k = NAN;
+    dk_dp = NAN;
+    dk_dT = NAN;
+  }
+  else
+  {
+    double pp, dpdv_u, dpdu_v, dudv_p;
+    double tt, dtdv_u, dtdu_v, dudv_t;
+    double dkdv_u, dkdu_v, dudv_k;
+    DIFF_P_VU_HE_T(vt, v, e, pp, dpdv_u, dpdu_v, dudv_p);
+    DIFF_T_VU_HE_T(vt, v, e, tt, dtdv_u, dtdu_v, dudv_t);
+    DIFF_LAMBDA_VU_HE_T(vt, v, e, k, dkdv_u, dkdu_v, dudv_k);
+    dk_dp = (dkdv_u * dtdu_v - dkdu_v * dtdv_u) / (dpdv_u * dtdu_v - dpdu_v * dtdv_u) / _to_Pa;
+    dk_dT = (dkdv_u * dpdu_v - dkdu_v * dpdv_u) / (dtdv_u * dpdu_v - dtdu_v * dpdv_u);
+  }
 }
 
 Real
