@@ -54,21 +54,26 @@ TEST_F(HeliumFluidPropertiesTest, test)
   const Real cp = _fp->cp_from_v_e(v, e);
   // TODO: REL_TEST(cp, cp_external, REL_TOL_EXTERNAL_VALUE);
   REL_TEST(cp, 5193.0901602885488, REL_TOL_SAVED_VALUE);
+  REL_TEST(_fp->cp_from_p_T(p, T), 5193.0901602885488, REL_TOL_SAVED_VALUE);
 
   // cv
   const Real cv = _fp->cv_from_v_e(v, e);
   // TODO: REL_TEST(cv, cv_external, REL_TOL_EXTERNAL_VALUE);
   REL_TEST(cv, 3116.0786782056684, REL_TOL_SAVED_VALUE);
+  REL_TEST(_fp->cv_from_p_T(p, T), 3116.0786782056684, REL_TOL_SAVED_VALUE);
 
   // mu
   const Real mu = _fp->mu_from_v_e(v, e);
   // TODO: REL_TEST(mu, mu_external, REL_TOL_EXTERNAL_VALUE);
   REL_TEST(mu, 0.000024003810057301473, REL_TOL_SAVED_VALUE);
+  REL_TEST(_fp->mu_from_p_T(p, T), 0.000024003810057301473, REL_TOL_SAVED_VALUE);
 
   // k
   const Real k = _fp->k_from_v_e(v, e);
   // TODO: REL_TEST(k, k_external, REL_TOL_EXTERNAL_VALUE);
   REL_TEST(k, 0.18809848357335232, REL_TOL_SAVED_VALUE);
+  REL_TEST(_fp->k_from_p_T(p, T), 0.18809848357335232, REL_TOL_SAVED_VALUE);
+  DERIV_TEST(_fp->k_from_p_T, p, T, REL_TOL_DERIVATIVE);
 
   // s
   REL_TEST(s, 29384.437673339806, REL_TOL_EXTERNAL_VALUE);
