@@ -2,6 +2,7 @@
 #define HELIUMFLUIDPROPERTIES_H
 
 #include "SinglePhaseFluidProperties.h"
+#include "NaNInterface.h"
 
 class HeliumFluidProperties;
 
@@ -20,7 +21,7 @@ InputParameters validParams<HeliumFluidProperties>();
  * - dynamic viscosity:  Pa-s
  * - conductivity:       W/m-K
  */
-class HeliumFluidProperties : public SinglePhaseFluidProperties
+class HeliumFluidProperties : public SinglePhaseFluidProperties, public NaNInterface
 {
 public:
   HeliumFluidProperties(const InputParameters & parameters);
