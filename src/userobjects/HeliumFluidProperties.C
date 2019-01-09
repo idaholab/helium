@@ -391,6 +391,12 @@ HeliumFluidProperties::mu_from_p_T(Real p, Real T) const
     return ETA_VU_HE(v, e);
 }
 
+void
+HeliumFluidProperties::mu_from_p_T(Real, Real, Real &, Real &, Real &) const
+{
+  mooseError(name(), ": ", __PRETTY_FUNCTION__, " not implemented.");
+}
+
 Real
 HeliumFluidProperties::k_from_p_T(Real p, Real T) const
 {
