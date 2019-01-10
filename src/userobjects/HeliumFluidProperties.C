@@ -1,5 +1,5 @@
 #include "HeliumFluidProperties.h"
-#include "SBTL_HE.h"
+#include "contrib/libSBTL_Helium/SBTL_HE.h"
 
 extern "C" double P_VU_HE(double v, double u);
 extern "C" double T_VU_HE(double v, double u);
