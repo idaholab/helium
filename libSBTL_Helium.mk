@@ -31,7 +31,7 @@ LIBSBTL_HELIUM_objects   := $(patsubst %.cpp, %.$(obj-suffix), $(LIBSBTL_HELIUM_
 LIBSBTL_HELIUM_deps      := $(patsubst %.$(obj-suffix), %.$(obj-suffix).d, $(LIBSBTL_HELIUM_objects))
 LIBSBTL_HELIUM_LIB       := $(LIBSBTL_HELIUM_DIR)/libSBTL_Helium-$(METHOD).la
 
-app_INCLUDES += -I$(LIBSBTL_HELIUM_DIR)
+app_INCLUDES += -I$(HELIUM_DIR)
 app_LIBS += $(LIBSBTL_HELIUM_LIB)
 
 $(LIBSBTL_HELIUM_LIB): $(LIBSBTL_HELIUM_objects)
