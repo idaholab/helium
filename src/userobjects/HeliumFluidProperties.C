@@ -189,6 +189,27 @@ HeliumFluidProperties::cp_from_v_e(Real v, Real e) const
   return CP_VU_HE(v, e * _to_kJ) * _to_J;
 }
 
+void
+HeliumFluidProperties::cp_from_v_e(Real v, Real e, Real & cp, Real & dcp_dv, Real & dcp_de) const
+{
+  double dv = 1e-4 * v;
+  static const double de = 1e-3;
+  double cp1, cp2;
+
+  cp = cp_from_v_e(v, e);
+
+  // Centered numerical derivatives are used here.
+  // cp is a first order derivative of the second order spline polynomials
+  // already.
+  cp1 = cp_from_v_e(v - dv, e);
+  cp2 = cp_from_v_e(v + dv, e);
+  dcp_dv = (cp2 - cp1) / (2. * dv);
+
+  cp1 = cp_from_v_e(v, e - de);
+  cp2 = cp_from_v_e(v, e + de);
+  dcp_de = (cp2 - cp1) / (2. * de);
+}
+
 Real
 HeliumFluidProperties::cv_from_v_e(Real v, Real e) const
 {
@@ -270,6 +291,28 @@ HeliumFluidProperties::beta_from_p_T(Real p, Real T) const
   double rho, drho_dp, drho_dT;
   rho_from_p_T(p, T, rho, drho_dp, drho_dT);
   return -drho_dT / rho;
+}
+
+void
+HeliumFluidProperties::beta_from_p_T(
+    Real p, Real T, Real & beta, Real & dbeta_dp, Real & dbeta_dT) const
+{
+  double dp = 1e-6 * p;
+  static const double dT = 1e-6;
+  double beta1, beta2;
+
+  beta = beta_from_p_T(p, T);
+
+  // Centered numerical derivatives are used here.
+  // beta is a first order derivative of the second order spline polynomials
+  // already.
+  beta1 = beta_from_p_T(p - dp, T);
+  beta2 = beta_from_p_T(p + dp, T);
+  dbeta_dp = (beta2 - beta1) / (2. * dp);
+
+  beta1 = beta_from_p_T(p, T - dT);
+  beta2 = beta_from_p_T(p, T + dT);
+  dbeta_dT = (beta2 - beta1) / (2. * dT);
 }
 
 Real
