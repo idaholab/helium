@@ -55,6 +55,7 @@ TEST_F(HeliumFluidPropertiesTest, test)
   // TODO: REL_TEST(cp, cp_external, REL_TOL_EXTERNAL_VALUE);
   REL_TEST(cp, 5193.0901602885488, REL_TOL_SAVED_VALUE);
   REL_TEST(_fp->cp_from_p_T(p, T), 5193.0901602885488, REL_TOL_SAVED_VALUE);
+  DERIV_TEST(_fp->cp_from_v_e, v, e, 0.001); // allow 0.1% here (numerical derivative)
 
   // cv
   const Real cv = _fp->cv_from_v_e(v, e);
@@ -93,9 +94,10 @@ TEST_F(HeliumFluidPropertiesTest, test)
   DERIV_TEST(_fp->h_from_p_T, p, T, REL_TOL_DERIVATIVE);
 
   // beta
-  // const Real beta = _fp->beta_from_p_T(p, T);
-  // TODO: REL_TEST(beta, beta_external, REL_TOL_EXTERNAL_VALUE);
-  // TODO: REL_TEST(beta, beta_saved, REL_TOL_SAVED_VALUE);
+  const Real beta = _fp->beta_from_p_T(p, T);
+  REL_TEST(beta, 0.00254252762578, REL_TOL_EXTERNAL_VALUE);
+  REL_TEST(beta, 0.0025424810406517082, REL_TOL_SAVED_VALUE);
+  DERIV_TEST(_fp->beta_from_p_T, p, T, REL_TOL_DERIVATIVE);
 
   // molar mass
   REL_TEST(_fp->molarMass(), 4.002602e-3, REL_TOL_SAVED_VALUE);
