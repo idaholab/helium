@@ -56,6 +56,7 @@ TEST_F(HeliumFluidPropertiesTest, test)
   REL_TEST(cp, 5193.0901602885488, REL_TOL_SAVED_VALUE);
   REL_TEST(_fp->cp_from_p_T(p, T), 5193.0901602885488, REL_TOL_SAVED_VALUE);
   DERIV_TEST(_fp->cp_from_v_e, v, e, 0.001); // allow 0.1% here (numerical derivative)
+  DERIV_TEST(_fp->cp_from_p_T, p, T, 0.001); // allow 0.1% here (numerical derivative)
 
   // cv
   const Real cv = _fp->cv_from_v_e(v, e);
