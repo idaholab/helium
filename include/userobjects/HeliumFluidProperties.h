@@ -26,6 +26,9 @@ class HeliumFluidProperties : public SinglePhaseFluidProperties, public NaNInter
 public:
   HeliumFluidProperties(const InputParameters & parameters);
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Woverloaded-virtual"
+
   Real molarMass() const override;
   virtual Real p_from_v_e(Real v, Real e) const override;
   virtual void p_from_v_e(Real v, Real e, Real & p, Real & dp_dv, Real & dp_de) const override;
@@ -68,6 +71,8 @@ public:
   virtual Real beta_from_p_T(Real p, Real T) const override;
   virtual void
   beta_from_p_T(Real p, Real T, Real & beta, Real & dbeta_dp, Real & dbeta_dT) const override;
+
+#pragma GCC diagnostic pop
 
 protected:
   /// Conversion factor from Pa to MPa
