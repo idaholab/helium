@@ -1,5 +1,4 @@
-#ifndef HELIUMFLUIDPROPERTIES_H
-#define HELIUMFLUIDPROPERTIES_H
+#pragma once
 
 #include "SinglePhaseFluidProperties.h"
 #include "NaNInterface.h"
@@ -84,5 +83,3 @@ protected:
   /// Conversion factor from kJ to J
   const Real _to_J;
 };
-
-#endif /* HELIUMFLUIDPROPERTIES_H */

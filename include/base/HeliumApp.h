@@ -1,5 +1,4 @@
-#ifndef HELIUMAPP_H
-#define HELIUMAPP_H
+#pragma once
 
 #include "MooseApp.h"
 
@@ -19,5 +18,3 @@ public:
 
 protected:
 };
-
-#endif /* HELIUMAPP_H */
