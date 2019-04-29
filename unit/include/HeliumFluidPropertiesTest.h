@@ -1,5 +1,4 @@
-#ifndef HELIUMFLUIDPROPERTIESTEST_H
-#define HELIUMFLUIDPROPERTIESTEST_H
+#pragma once
 
 #include "HeliumFluidProperties.h"
 #include "MooseObjectUnitTest.h"
@@ -19,5 +18,3 @@ protected:
 
   const HeliumFluidProperties * _fp;
 };
-
-#endif
