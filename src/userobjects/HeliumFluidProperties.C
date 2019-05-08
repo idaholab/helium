@@ -444,6 +444,27 @@ HeliumFluidProperties::cv_from_p_T(Real p, Real T) const
     return CV_VU_HE(v, e) * _to_J;
 }
 
+void
+HeliumFluidProperties::cv_from_p_T(Real p, Real T, Real & cv, Real & dcv_dp, Real & dcv_dT) const
+{
+  double dp = 1e-6 * p;
+  static const double dT = 1e-6;
+  double cv1, cv2;
+
+  cv = cv_from_p_T(p, T);
+
+  // Centered numerical derivatives are used here.
+  // cv is a first order derivative of the second order spline polynomials
+  // already.
+  cv1 = cv_from_p_T(p - dp, T);
+  cv2 = cv_from_p_T(p + dp, T);
+  dcv_dp = (cv2 - cv1) / (2. * dp);
+
+  cv1 = cv_from_p_T(p, T - dT);
+  cv2 = cv_from_p_T(p, T + dT);
+  dcv_dT = (cv2 - cv1) / (2. * dT);
+}
+
 Real
 HeliumFluidProperties::mu_from_p_T(Real p, Real T) const
 {
