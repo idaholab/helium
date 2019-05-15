@@ -1,4 +1,4 @@
-#include "HeliumFluidProperties.h"
+#include "HeliumSBTLFluidProperties.h"
 #include "contrib/libSBTL_Helium/SBTL_HE.h"
 
 extern "C" double P_VU_HE(double v, double u);
@@ -68,11 +68,11 @@ extern "C" void DIFF_LAMBDA_VU_HE_T(double vt,
 extern "C" void
 DIFF_U_VP_HE(double v, double p, double & u, double & dudv_p, double & dudp_v, double & dpdv_u);
 
-registerMooseObject("HeliumApp", HeliumFluidProperties);
+registerMooseObject("HeliumApp", HeliumSBTLFluidProperties);
 
 template <>
 InputParameters
-validParams<HeliumFluidProperties>()
+validParams<HeliumSBTLFluidProperties>()
 {
   InputParameters params = validParams<SinglePhaseFluidProperties>();
   params += validParams<NaNInterface>();
@@ -80,7 +80,7 @@ validParams<HeliumFluidProperties>()
   return params;
 }
 
-HeliumFluidProperties::HeliumFluidProperties(const InputParameters & parameters)
+HeliumSBTLFluidProperties::HeliumSBTLFluidProperties(const InputParameters & parameters)
   : SinglePhaseFluidProperties(parameters),
     NaNInterface(this),
     _to_MPa(1e-6),
@@ -91,19 +91,19 @@ HeliumFluidProperties::HeliumFluidProperties(const InputParameters & parameters)
 }
 
 Real
-HeliumFluidProperties::molarMass() const
+HeliumSBTLFluidProperties::molarMass() const
 {
   return 4.002602e-3;
 }
 
 Real
-HeliumFluidProperties::p_from_v_e(Real v, Real e) const
+HeliumSBTLFluidProperties::p_from_v_e(Real v, Real e) const
 {
   return P_VU_HE(v, e * _to_kJ) * _to_Pa;
 }
 
 void
-HeliumFluidProperties::p_from_v_e(Real v, Real e, Real & p, Real & dp_dv, Real & dp_de) const
+HeliumSBTLFluidProperties::p_from_v_e(Real v, Real e, Real & p, Real & dp_dv, Real & dp_de) const
 {
   e *= _to_kJ;
 
@@ -116,13 +116,13 @@ HeliumFluidProperties::p_from_v_e(Real v, Real e, Real & p, Real & dp_dv, Real &
 }
 
 Real
-HeliumFluidProperties::T_from_v_e(Real v, Real e) const
+HeliumSBTLFluidProperties::T_from_v_e(Real v, Real e) const
 {
   return T_VU_HE(v, e * _to_kJ);
 }
 
 void
-HeliumFluidProperties::T_from_v_e(Real v, Real e, Real & T, Real & dT_dv, Real & dT_de) const
+HeliumSBTLFluidProperties::T_from_v_e(Real v, Real e, Real & T, Real & dT_dv, Real & dT_de) const
 {
   e *= _to_kJ;
 
@@ -133,13 +133,13 @@ HeliumFluidProperties::T_from_v_e(Real v, Real e, Real & T, Real & dT_dv, Real &
 }
 
 Real
-HeliumFluidProperties::c_from_v_e(Real v, Real e) const
+HeliumSBTLFluidProperties::c_from_v_e(Real v, Real e) const
 {
   return W_VU_HE(v, e * _to_kJ);
 }
 
 void
-HeliumFluidProperties::c_from_v_e(Real v, Real e, Real & c, Real & dc_dv, Real & dc_de) const
+HeliumSBTLFluidProperties::c_from_v_e(Real v, Real e, Real & c, Real & dc_dv, Real & dc_de) const
 {
   double de_dv_c;
   DIFF_W_VU_HE(v, e * _to_kJ, c, dc_dv, dc_de, de_dv_c);
@@ -148,7 +148,7 @@ HeliumFluidProperties::c_from_v_e(Real v, Real e, Real & c, Real & dc_dv, Real &
 }
 
 Real
-HeliumFluidProperties::e_from_v_h(Real v, Real h) const
+HeliumSBTLFluidProperties::e_from_v_h(Real v, Real h) const
 {
   double e;
   const unsigned int ierr = FLASH_VH_HE(v, h * _to_kJ, e);
@@ -159,7 +159,7 @@ HeliumFluidProperties::e_from_v_h(Real v, Real h) const
 }
 
 void
-HeliumFluidProperties::e_from_v_h(Real v, Real h, Real & e, Real & de_dv, Real & de_dh) const
+HeliumSBTLFluidProperties::e_from_v_h(Real v, Real h, Real & e, Real & de_dv, Real & de_dh) const
 {
   const unsigned int ierr = FLASH_VH_HE(v, h * _to_kJ, e);
   if (ierr != I_OK)
@@ -184,13 +184,14 @@ HeliumFluidProperties::e_from_v_h(Real v, Real h, Real & e, Real & de_dv, Real &
 }
 
 Real
-HeliumFluidProperties::cp_from_v_e(Real v, Real e) const
+HeliumSBTLFluidProperties::cp_from_v_e(Real v, Real e) const
 {
   return CP_VU_HE(v, e * _to_kJ) * _to_J;
 }
 
 void
-HeliumFluidProperties::cp_from_v_e(Real v, Real e, Real & cp, Real & dcp_dv, Real & dcp_de) const
+HeliumSBTLFluidProperties::cp_from_v_e(
+    Real v, Real e, Real & cp, Real & dcp_dv, Real & dcp_de) const
 {
   double dv = 1e-4 * v;
   static const double de = 1e-3;
@@ -211,31 +212,31 @@ HeliumFluidProperties::cp_from_v_e(Real v, Real e, Real & cp, Real & dcp_dv, Rea
 }
 
 Real
-HeliumFluidProperties::cv_from_v_e(Real v, Real e) const
+HeliumSBTLFluidProperties::cv_from_v_e(Real v, Real e) const
 {
   return CV_VU_HE(v, e * _to_kJ) * _to_J;
 }
 
 Real
-HeliumFluidProperties::mu_from_v_e(Real v, Real e) const
+HeliumSBTLFluidProperties::mu_from_v_e(Real v, Real e) const
 {
   return ETA_VU_HE(v, e * _to_kJ);
 }
 
 Real
-HeliumFluidProperties::k_from_v_e(Real v, Real e) const
+HeliumSBTLFluidProperties::k_from_v_e(Real v, Real e) const
 {
   return LAMBDA_VU_HE(v, e * _to_kJ);
 }
 
 Real
-HeliumFluidProperties::s_from_v_e(Real v, Real e) const
+HeliumSBTLFluidProperties::s_from_v_e(Real v, Real e) const
 {
   return S_VU_HE(v, e * _to_kJ) * _to_J;
 }
 
 void
-HeliumFluidProperties::s_from_v_e(Real v, Real e, Real & s, Real & ds_dv, Real & ds_de) const
+HeliumSBTLFluidProperties::s_from_v_e(Real v, Real e, Real & s, Real & ds_dv, Real & ds_de) const
 {
   double de_dv_s;
   DIFF_S_VU_HE(v, e * _to_kJ, s, ds_dv, ds_de, de_dv_s);
@@ -245,7 +246,7 @@ HeliumFluidProperties::s_from_v_e(Real v, Real e, Real & s, Real & ds_dv, Real &
 }
 
 Real
-HeliumFluidProperties::s_from_h_p(Real h, Real p) const
+HeliumSBTLFluidProperties::s_from_h_p(Real h, Real p) const
 {
   double v, vt, e;
   const unsigned int ierr = PH_FLASH_HE(p * _to_MPa, h * _to_kJ, v, vt, e);
@@ -256,7 +257,7 @@ HeliumFluidProperties::s_from_h_p(Real h, Real p) const
 }
 
 void
-HeliumFluidProperties::s_from_h_p(Real h, Real p, Real & s, Real & ds_dh, Real & ds_dp) const
+HeliumSBTLFluidProperties::s_from_h_p(Real h, Real p, Real & s, Real & ds_dh, Real & ds_dp) const
 {
   double v, vt, e;
   const unsigned int ierr = PH_FLASH_HE(p * _to_MPa, h * _to_kJ, v, vt, e);
@@ -286,7 +287,7 @@ HeliumFluidProperties::s_from_h_p(Real h, Real p, Real & s, Real & ds_dh, Real &
 }
 
 Real
-HeliumFluidProperties::beta_from_p_T(Real p, Real T) const
+HeliumSBTLFluidProperties::beta_from_p_T(Real p, Real T) const
 {
   double rho, drho_dp, drho_dT;
   rho_from_p_T(p, T, rho, drho_dp, drho_dT);
@@ -294,7 +295,7 @@ HeliumFluidProperties::beta_from_p_T(Real p, Real T) const
 }
 
 void
-HeliumFluidProperties::beta_from_p_T(
+HeliumSBTLFluidProperties::beta_from_p_T(
     Real p, Real T, Real & beta, Real & dbeta_dp, Real & dbeta_dT) const
 {
   double dp = 1e-6 * p;
@@ -316,7 +317,7 @@ HeliumFluidProperties::beta_from_p_T(
 }
 
 Real
-HeliumFluidProperties::rho_from_p_T(Real p, Real T) const
+HeliumSBTLFluidProperties::rho_from_p_T(Real p, Real T) const
 {
   double v, vt, e;
   const unsigned int ierr = PT_FLASH_HE(p * _to_MPa, T, v, vt, e);
@@ -327,7 +328,7 @@ HeliumFluidProperties::rho_from_p_T(Real p, Real T) const
 }
 
 void
-HeliumFluidProperties::rho_from_p_T(
+HeliumSBTLFluidProperties::rho_from_p_T(
     Real p, Real T, Real & rho, Real & drho_dp, Real & drho_dT) const
 {
   double v, vt, dv_dp, dv_dT, dp_dT_v;
@@ -350,14 +351,15 @@ HeliumFluidProperties::rho_from_p_T(
 }
 
 Real
-HeliumFluidProperties::e_from_p_rho(Real p, Real rho) const
+HeliumSBTLFluidProperties::e_from_p_rho(Real p, Real rho) const
 {
   double v = 1. / rho;
   return U_VP_HE(v, p * _to_MPa) * _to_J;
 }
 
 void
-HeliumFluidProperties::e_from_p_rho(Real p, Real rho, Real & e, Real & de_dp, Real & de_drho) const
+HeliumSBTLFluidProperties::e_from_p_rho(
+    Real p, Real rho, Real & e, Real & de_dp, Real & de_drho) const
 {
   double de_dv, dp_dv_e;
   double v = 1. / rho;
@@ -370,7 +372,7 @@ HeliumFluidProperties::e_from_p_rho(Real p, Real rho, Real & e, Real & de_dp, Re
 }
 
 Real
-HeliumFluidProperties::h_from_p_T(Real p, Real T) const
+HeliumSBTLFluidProperties::h_from_p_T(Real p, Real T) const
 {
   double v, vt, e;
   const unsigned int ierr = PT_FLASH_HE(p * _to_MPa, T, v, vt, e);
@@ -381,7 +383,7 @@ HeliumFluidProperties::h_from_p_T(Real p, Real T) const
 }
 
 void
-HeliumFluidProperties::h_from_p_T(Real p, Real T, Real & h, Real & dh_dp, Real & dh_dT) const
+HeliumSBTLFluidProperties::h_from_p_T(Real p, Real T, Real & h, Real & dh_dp, Real & dh_dT) const
 {
   double v, vt, dv_dp, dv_dT, dp_dT_v;
   double e, de_dp, de_dT, dp_dT_e;
@@ -402,7 +404,7 @@ HeliumFluidProperties::h_from_p_T(Real p, Real T, Real & h, Real & dh_dp, Real &
 }
 
 Real
-HeliumFluidProperties::cp_from_p_T(Real p, Real T) const
+HeliumSBTLFluidProperties::cp_from_p_T(Real p, Real T) const
 {
   double v, vt, e;
   const unsigned int ierr = PT_FLASH_HE(p * _to_MPa, T, v, vt, e);
@@ -413,7 +415,8 @@ HeliumFluidProperties::cp_from_p_T(Real p, Real T) const
 }
 
 void
-HeliumFluidProperties::cp_from_p_T(Real p, Real T, Real & cp, Real & dcp_dp, Real & dcp_dT) const
+HeliumSBTLFluidProperties::cp_from_p_T(
+    Real p, Real T, Real & cp, Real & dcp_dp, Real & dcp_dT) const
 {
   double dp = 1e-6 * p;
   static const double dT = 1e-6;
@@ -434,7 +437,7 @@ HeliumFluidProperties::cp_from_p_T(Real p, Real T, Real & cp, Real & dcp_dp, Rea
 }
 
 Real
-HeliumFluidProperties::cv_from_p_T(Real p, Real T) const
+HeliumSBTLFluidProperties::cv_from_p_T(Real p, Real T) const
 {
   double v, vt, e;
   const unsigned int ierr = PT_FLASH_HE(p * _to_MPa, T, v, vt, e);
@@ -445,7 +448,8 @@ HeliumFluidProperties::cv_from_p_T(Real p, Real T) const
 }
 
 void
-HeliumFluidProperties::cv_from_p_T(Real p, Real T, Real & cv, Real & dcv_dp, Real & dcv_dT) const
+HeliumSBTLFluidProperties::cv_from_p_T(
+    Real p, Real T, Real & cv, Real & dcv_dp, Real & dcv_dT) const
 {
   double dp = 1e-6 * p;
   static const double dT = 1e-6;
@@ -466,7 +470,7 @@ HeliumFluidProperties::cv_from_p_T(Real p, Real T, Real & cv, Real & dcv_dp, Rea
 }
 
 Real
-HeliumFluidProperties::mu_from_p_T(Real p, Real T) const
+HeliumSBTLFluidProperties::mu_from_p_T(Real p, Real T) const
 {
   double v, vt, e;
   const unsigned int ierr = PT_FLASH_HE(p * _to_MPa, T, v, vt, e);
@@ -477,13 +481,13 @@ HeliumFluidProperties::mu_from_p_T(Real p, Real T) const
 }
 
 void
-HeliumFluidProperties::mu_from_p_T(Real, Real, Real &, Real &, Real &) const
+HeliumSBTLFluidProperties::mu_from_p_T(Real, Real, Real &, Real &, Real &) const
 {
   mooseError(name(), ": ", __PRETTY_FUNCTION__, " not implemented.");
 }
 
 Real
-HeliumFluidProperties::k_from_p_T(Real p, Real T) const
+HeliumSBTLFluidProperties::k_from_p_T(Real p, Real T) const
 {
   double v, vt, e;
   const unsigned int ierr = PT_FLASH_HE(p * _to_MPa, T, v, vt, e);
@@ -494,7 +498,7 @@ HeliumFluidProperties::k_from_p_T(Real p, Real T) const
 }
 
 void
-HeliumFluidProperties::k_from_p_T(Real p, Real T, Real & k, Real & dk_dp, Real & dk_dT) const
+HeliumSBTLFluidProperties::k_from_p_T(Real p, Real T, Real & k, Real & dk_dp, Real & dk_dT) const
 {
   double v, vt, dv_dp, dv_dT, dp_dT_v;
   double e, de_dp, de_dT, dp_dT_e;
@@ -520,7 +524,7 @@ HeliumFluidProperties::k_from_p_T(Real p, Real T, Real & k, Real & dk_dp, Real &
 }
 
 Real
-HeliumFluidProperties::p_from_h_s(Real h, Real s) const
+HeliumSBTLFluidProperties::p_from_h_s(Real h, Real s) const
 {
   double v, vt, e;
   HS_FLASH_HE(h * _to_kJ, s * _to_kJ, v, vt, e);
@@ -528,7 +532,7 @@ HeliumFluidProperties::p_from_h_s(Real h, Real s) const
 }
 
 void
-HeliumFluidProperties::p_from_h_s(Real h, Real s, Real & p, Real & dp_dh, Real & dp_ds) const
+HeliumSBTLFluidProperties::p_from_h_s(Real h, Real s, Real & p, Real & dp_dh, Real & dp_ds) const
 {
   double v, vt, e;
   HS_FLASH_HE(h * _to_kJ, s * _to_kJ, v, vt, e);
@@ -544,13 +548,13 @@ HeliumFluidProperties::p_from_h_s(Real h, Real s, Real & p, Real & dp_dh, Real &
 }
 
 Real
-HeliumFluidProperties::g_from_v_e(Real v, Real e) const
+HeliumSBTLFluidProperties::g_from_v_e(Real v, Real e) const
 {
   return G_VU_HE(v, e * _to_kJ) * _to_J;
 }
 
 Real
-HeliumFluidProperties::rho_from_p_s(Real p, Real s) const
+HeliumSBTLFluidProperties::rho_from_p_s(Real p, Real s) const
 {
   double v, vt, e;
   const unsigned int ierr = PS_FLASH_HE(p * _to_MPa, s * _to_kJ, v, vt, e);
@@ -561,7 +565,7 @@ HeliumFluidProperties::rho_from_p_s(Real p, Real s) const
 }
 
 void
-HeliumFluidProperties::rho_from_p_s(
+HeliumSBTLFluidProperties::rho_from_p_s(
     Real p, Real s, Real & rho, Real & drho_dp, Real & drho_ds) const
 {
   double v, vt, e;

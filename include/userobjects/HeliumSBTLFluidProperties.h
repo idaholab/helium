@@ -3,10 +3,10 @@
 #include "SinglePhaseFluidProperties.h"
 #include "NaNInterface.h"
 
-class HeliumFluidProperties;
+class HeliumSBTLFluidProperties;
 
 template <>
-InputParameters validParams<HeliumFluidProperties>();
+InputParameters validParams<HeliumSBTLFluidProperties>();
 
 /**
  * Properties of helium according to Ortiz et al. computed with the SBTL method
@@ -20,10 +20,10 @@ InputParameters validParams<HeliumFluidProperties>();
  * - dynamic viscosity:  Pa-s
  * - conductivity:       W/m-K
  */
-class HeliumFluidProperties : public SinglePhaseFluidProperties, public NaNInterface
+class HeliumSBTLFluidProperties : public SinglePhaseFluidProperties, public NaNInterface
 {
 public:
-  HeliumFluidProperties(const InputParameters & parameters);
+  HeliumSBTLFluidProperties(const InputParameters & parameters);
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Woverloaded-virtual"

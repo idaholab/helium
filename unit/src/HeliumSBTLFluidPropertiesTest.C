@@ -1,7 +1,7 @@
-#include "HeliumFluidPropertiesTest.h"
+#include "HeliumSBTLFluidPropertiesTest.h"
 #include "SinglePhaseFluidPropertiesTestUtils.h"
 
-TEST_F(HeliumFluidPropertiesTest, test)
+TEST_F(HeliumSBTLFluidPropertiesTest, test)
 {
   const Real T = 120.0 + 273.15;
   const Real p = 101325;
