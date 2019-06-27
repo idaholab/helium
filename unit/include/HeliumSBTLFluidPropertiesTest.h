@@ -13,7 +13,7 @@ protected:
   {
     InputParameters uo_pars = _factory.getValidParams("HeliumSBTLFluidProperties");
     _fe_problem->addUserObject("HeliumSBTLFluidProperties", "fp", uo_pars);
-    _fp = &_fe_problem->getUserObject<HeliumSBTLFluidProperties>("fp");
+    _fp = &_fe_problem->getUserObjectTempl<HeliumSBTLFluidProperties>("fp");
   }
 
   const HeliumSBTLFluidProperties * _fp;
