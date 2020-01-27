@@ -1,16 +1,19 @@
 Content:
-    - ${ROOT_DIR}/doc/content
-    - ${MOOSE_DIR}/framework/doc/content
-    - ${MOOSE_DIR}/modules/fluid_properties/doc/content
+    helium:
+        root_dir: doc/content
+    framework:
+        root_dir: ${MOOSE_DIR}/framework/doc/content
+    fluid_properties:
+        root_dir: ${MOOSE_DIR}/modules/fluid_properties/doc/content
 
 Renderer:
     type: MooseDocs.base.MaterializeRenderer
-    name: helium
-    repo: https://hpcgitlab.inl.gov/idaholab/helium
-    home: https://hpcsc.inl.gov/ssl/HELIUM/site/
 
 Extensions:
     MooseDocs.extensions.navigation:
+        name: helium
+        repo: https://hpcgitlab.inl.gov/idaholab/helium
+        home: https://hpcsc.inl.gov/ssl/HELIUM/site/
         menu:
             Developers:
                 Workflow: workflow.md
