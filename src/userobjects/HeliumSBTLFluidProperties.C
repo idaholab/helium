@@ -223,6 +223,16 @@ HeliumSBTLFluidProperties::mu_from_v_e(Real v, Real e) const
   return ETA_VU_HE(v, e * _to_kJ);
 }
 
+void
+HeliumSBTLFluidProperties::mu_from_v_e(
+    Real v, Real e, Real & mu, Real & dmu_dv, Real & dmu_de) const
+{
+  mu = mu_from_v_e(v, e);
+  // currenlty there is no API for derivatives of mu in SBTL package
+  dmu_dv = 0;
+  dmu_de = 0;
+}
+
 Real
 HeliumSBTLFluidProperties::k_from_v_e(Real v, Real e) const
 {
