@@ -3,11 +3,6 @@
 #include "SinglePhaseFluidProperties.h"
 #include "NaNInterface.h"
 
-class HeliumSBTLFluidProperties;
-
-template <>
-InputParameters validParams<HeliumSBTLFluidProperties>();
-
 /**
  * Properties of helium according to Ortiz et al. computed with the SBTL method
  *
@@ -91,4 +86,7 @@ protected:
   const Real _to_kJ;
   /// Conversion factor from kJ to J
   const Real _to_J;
+
+public:
+  static InputParameters validParams();
 };
