@@ -70,12 +70,11 @@ DIFF_U_VP_HE(double v, double p, double & u, double & dudv_p, double & dudp_v, d
 
 registerMooseObject("HeliumApp", HeliumSBTLFluidProperties);
 
-template <>
 InputParameters
-validParams<HeliumSBTLFluidProperties>()
+HeliumSBTLFluidProperties::validParams()
 {
-  InputParameters params = validParams<SinglePhaseFluidProperties>();
-  params += validParams<NaNInterface>();
+  InputParameters params = SinglePhaseFluidProperties::validParams();
+  params += NaNInterface::validParams();
   params.addClassDescription("Fluid properties of nirtogen (gas phase).");
   return params;
 }
