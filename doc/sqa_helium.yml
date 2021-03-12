@@ -1,0 +1,6 @@
+dependencies:
+    - framework
+    - fluid_properties
+repos:
+    default: https://hpcgitlab.hpc.inl.gov/idaholab/helium
+reports: !include ${HELIUM_DIR}/doc/sqa_reports.yml
