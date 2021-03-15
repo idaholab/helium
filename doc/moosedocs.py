@@ -15,6 +15,9 @@ MOOSE_PYTHON_DIR = os.path.join(MOOSE_DIR, 'python')
 if MOOSE_PYTHON_DIR not in sys.path:
     sys.path.append(MOOSE_PYTHON_DIR)
 
+if 'HELIUM_DIR' not in os.environ:
+    os.environ['HELIUM_DIR'] = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+
 from MooseDocs import main
 
 if __name__ == '__main__':
