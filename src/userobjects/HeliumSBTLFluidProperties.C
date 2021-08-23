@@ -58,6 +58,8 @@ extern "C" void
 DIFF_S_VU_HE(double v, double u, double & s, double & dsdv, double & dsdu, double & dudv);
 extern "C" void
 DIFF_W_VU_HE(double v, double u, double & c, double & dcdv, double & dcdu, double & dudv);
+extern "C" void
+DIFF_LAMBDA_VU_HE(double v, double u, double & k, double & dk_dv, double & dk_du, double & dudv);
 extern "C" void DIFF_LAMBDA_VU_HE_T(double vt,
                                     double v,
                                     double u,
@@ -216,6 +218,28 @@ HeliumSBTLFluidProperties::cv_from_v_e(Real v, Real e) const
   return CV_VU_HE(v, e * _to_kJ) * _to_J;
 }
 
+void
+HeliumSBTLFluidProperties::cv_from_v_e(
+    Real v, Real e, Real & cv, Real & dcv_dv, Real & dcv_de) const
+{
+  double dv = 1e-5 * v;
+  static const double de = 1e-2;
+  double cv1, cv2;
+
+  cv = cv_from_v_e(v, e);
+
+  // Centered numerical derivatives are used here.
+  // cp is a first order derivative of the second order spline polynomials
+  // already.
+  cv1 = cv_from_v_e(v - dv, e);
+  cv2 = cv_from_v_e(v + dv, e);
+  dcv_dv = (cv2 - cv1) / (2. * dv);
+
+  cv1 = cv_from_v_e(v, e - de);
+  cv2 = cv_from_v_e(v, e + de);
+  dcv_de = (cv2 - cv1) / (2. * de);
+}
+
 Real
 HeliumSBTLFluidProperties::mu_from_v_e(Real v, Real e) const
 {
@@ -236,6 +260,14 @@ Real
 HeliumSBTLFluidProperties::k_from_v_e(Real v, Real e) const
 {
   return LAMBDA_VU_HE(v, e * _to_kJ);
+}
+
+void
+HeliumSBTLFluidProperties::k_from_v_e(Real v, Real e, Real & k, Real & dk_dv, Real & dk_de) const
+{
+  double de_dv_k;
+  DIFF_LAMBDA_VU_HE(v, e * _to_kJ, k, dk_dv, dk_de, de_dv_k);
+  dk_de *= 1 / _to_J;
 }
 
 Real
