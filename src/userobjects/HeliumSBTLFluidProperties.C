@@ -58,6 +58,8 @@ extern "C" void
 DIFF_S_VU_HE(double v, double u, double & s, double & dsdv, double & dsdu, double & dudv);
 extern "C" void
 DIFF_W_VU_HE(double v, double u, double & c, double & dcdv, double & dcdu, double & dudv);
+extern "C" void
+DIFF_LAMBDA_VU_HE(double v, double u, double & k, double & dk_dv, double & dk_du, double & dudv);
 extern "C" void DIFF_LAMBDA_VU_HE_T(double vt,
                                     double v,
                                     double u,
@@ -258,6 +260,14 @@ Real
 HeliumSBTLFluidProperties::k_from_v_e(Real v, Real e) const
 {
   return LAMBDA_VU_HE(v, e * _to_kJ);
+}
+
+void
+HeliumSBTLFluidProperties::k_from_v_e(Real v, Real e, Real & k, Real & dk_dv, Real & dk_de) const
+{
+  double de_dv_k;
+  DIFF_LAMBDA_VU_HE(v, e * _to_kJ, k, dk_dv, dk_de, de_dv_k);
+  dk_de *= 1 / _to_J;
 }
 
 Real
