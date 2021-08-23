@@ -63,6 +63,7 @@ TEST_F(HeliumSBTLFluidPropertiesTest, test)
   // TODO: REL_TEST(cv, cv_external, REL_TOL_EXTERNAL_VALUE);
   REL_TEST(cv, 3116.0786782056684, REL_TOL_SAVED_VALUE);
   REL_TEST(_fp->cv_from_p_T(p, T), 3116.0786782056684, REL_TOL_SAVED_VALUE);
+  DERIV_TEST(_fp->cv_from_v_e, v, e, 1e-4); // allow 0.01% here (numerical derivative)
 
   // mu
   Real mu = _fp->mu_from_v_e(v, e);
@@ -80,6 +81,7 @@ TEST_F(HeliumSBTLFluidPropertiesTest, test)
   // TODO: REL_TEST(k, k_external, REL_TOL_EXTERNAL_VALUE);
   REL_TEST(k, 0.18809848357335232, REL_TOL_SAVED_VALUE);
   REL_TEST(_fp->k_from_p_T(p, T), 0.18809848357335232, REL_TOL_SAVED_VALUE);
+  DERIV_TEST(_fp->k_from_v_e, v, e, REL_TOL_DERIVATIVE);
   DERIV_TEST(_fp->k_from_p_T, p, T, REL_TOL_DERIVATIVE);
 
   // s
