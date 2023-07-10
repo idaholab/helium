@@ -47,5 +47,5 @@ HeliumApp::registerAll(Factory & f, ActionFactory & af, Syntax & s)
   Registry::registerObjectsTo(f, {"HeliumApp"});
   Registry::registerActionsTo(af, {"HeliumApp"});
 
-  ModulesApp::registerAll(f, af, s);
+  ModulesApp::registerAllObjects<HeliumApp>(f, af, s);
 }
