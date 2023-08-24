@@ -1,3 +1,12 @@
+//* This file is part of helium
+//* https://github.com/idaholab/helium
+//*
+//* All rights reserved, see NOTICE.txt for full restrictions
+//* https://github.com/idaholab/helium/blob/master/NOTICE.txt
+//*
+//* Licensed under LGPL 2.1, please see LICENSE for details
+//* https://www.gnu.org/licenses/lgpl-2.1.html
+
 #include "gtest/gtest.h"
 #include "AppFactory.h"
 #include "MooseInit.h"
