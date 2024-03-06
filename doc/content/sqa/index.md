@@ -1,1 +1,1 @@
-!template load file=sqa/app_index.md.template app=HeliumApp category=helium
+!template load file=sqa/app_index.md.template app=Helium category=helium
