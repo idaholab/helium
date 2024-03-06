@@ -1,4 +1,4 @@
-!template load file=sqa/app_sdd.md.template app=HeliumApp category=helium
+!template load file=sqa/app_sdd.md.template app=Helium category=helium
 
 Helium properties are computed within a fluid property user object. Fluid properties user objects derive
 from base classes defined in the MOOSE fluid properties module. These base classes define interfaces that other

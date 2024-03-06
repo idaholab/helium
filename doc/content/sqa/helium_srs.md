@@ -1,5 +1,4 @@
-!template load file=sqa/app_srs.md.template app=HeliumApp category=helium
-
+!template load file=sqa/app_srs.md.template app=Helium category=helium
 
 !template! item key=system-purpose
 {{app}} is a module to compute the fluid properties of helium gas using Spline-Based Table lookups (SBTL) for MOOSE applications.
