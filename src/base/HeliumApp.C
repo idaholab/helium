@@ -13,7 +13,9 @@
 #include "AppFactory.h"
 
 // Modules
+#ifndef SKIP_MODULE_LOAD
 #include "ModulesApp.h"
+#endif
 
 InputParameters
 HeliumApp::validParams()
@@ -56,5 +58,8 @@ HeliumApp::registerAll(Factory & f, ActionFactory & af, Syntax & s)
   Registry::registerObjectsTo(f, {"HeliumApp"});
   Registry::registerActionsTo(af, {"HeliumApp"});
 
+  libmesh_ignore(s);
+#ifndef SKIP_MODULE_LOAD
   ModulesApp::registerAllObjects<HeliumApp>(f, af, s);
+#endif
 }
