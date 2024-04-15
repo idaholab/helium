@@ -73,6 +73,7 @@ include/base/HeliumRevision.h
 include/HeliumRevision.h
 build
 .tags
+helium.yaml
 
 # Allow output files in gold directories
 !**/gold/*.e
