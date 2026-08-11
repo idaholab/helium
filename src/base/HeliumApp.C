@@ -27,7 +27,7 @@ HeliumApp::validParams()
 
 registerKnownLabel("HeliumApp");
 
-HeliumApp::HeliumApp(InputParameters parameters) : MooseApp(parameters)
+HeliumApp::HeliumApp(const InputParameters & parameters) : MooseApp(parameters)
 {
   HeliumApp::registerAll(_factory, _action_factory, _syntax);
 }
