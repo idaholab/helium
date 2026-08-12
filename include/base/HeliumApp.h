@@ -16,7 +16,7 @@ class Factory;
 class HeliumApp : public MooseApp
 {
 public:
-  HeliumApp(InputParameters parameters);
+  HeliumApp(const InputParameters & parameters);
 
 public:
   static InputParameters validParams();

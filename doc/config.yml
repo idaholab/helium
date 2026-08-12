@@ -5,6 +5,8 @@ Content:
         root_dir: ${MOOSE_DIR}/framework/doc/content
     fluid_properties:
         root_dir: ${MOOSE_DIR}/modules/fluid_properties/doc/content
+    misc:
+        root_dir: ${MOOSE_DIR}/modules/misc/doc/content
 Renderer:
     type: MooseDocs.base.MaterializeRenderer
 Extensions:
